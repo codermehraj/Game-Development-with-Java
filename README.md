@@ -6,3 +6,7 @@ Here I will add resources and codes while I learn game development using java.
 
 ## YouTube:
 - [SpaceRunner](https://www.youtube.com/playlist?list=PL4wcbt63yAbdtY-GOeuRjIePfUsukSJZ9)
+
+## Assets:
+- [Kenney](https://www.kenney.nl/assets)
+- [itch.io](https://itch.io/game-assets)
