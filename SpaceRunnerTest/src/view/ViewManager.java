@@ -3,6 +3,7 @@ package view;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import model.SpaceRunnerButton;
 
 public class ViewManager {
 	
@@ -22,5 +23,10 @@ public class ViewManager {
 	
 	public Stage getMainStage() {
 		return mainStage;
+	}
+	
+	private void createButtons() {
+		SpaceRunnerButton button = new SpaceRunnerButton("Click ME!");
+		mainPane.getChildren().add(button);
 	}
 }
