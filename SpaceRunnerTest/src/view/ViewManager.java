@@ -3,8 +3,12 @@ package view;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -12,6 +16,7 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.stage.Stage;
 import model.SpaceRunnerButton;
+import model.SpaceRunnerSubScene;
 
 public class ViewManager {
 	
@@ -28,12 +33,17 @@ public class ViewManager {
 	List < SpaceRunnerButton > menuButtons;
 	
 	public ViewManager() {
+		
 		mainPane = new AnchorPane();
 		mainScene = new Scene(mainPane, WIDTH, HEIGHT);
 		mainStage = new Stage();
 		mainStage.setScene(mainScene);
+		
+		
+		createSubScene();
 		createButtons();
 		createBackground();
+		createLogo();		
 	}
 	
 	public Stage getMainStage() {
@@ -64,5 +74,35 @@ public class ViewManager {
 		BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, null);
 		mainPane.setBackground(new Background(background));
 		
+	}
+	
+	private void createLogo() {
+		ImageView logo = new ImageView("view/resources/logo.png");
+		logo.setLayoutX(700);
+		logo.setLayoutY(50);
+		
+		logo.setOnMouseEntered(new EventHandler<MouseEvent>(){
+			
+			public void handle(MouseEvent event) {
+				logo.setEffect(new DropShadow());
+			}
+		});
+		
+		logo.setOnMouseExited(new EventHandler<MouseEvent>(){
+			
+			public void handle(MouseEvent event) {
+				logo.setEffect(null);
+			}
+		});
+		
+		mainPane.getChildren().add(logo);		
+		
+	}
+	
+	private  void createSubScene() {
+		SpaceRunnerSubScene subscene = new SpaceRunnerSubScene();
+		subscene.setLayoutX(200);
+		subscene.setLayoutY(100);
+		mainPane.getChildren().add(subscene);
 	}
 }
