@@ -32,7 +32,7 @@ public class ViewManager {
 	private final static int MENU_BUTTON_START_Y = 150;
 	
 	List < SpaceRunnerButton > menuButtons;
-	private SpaceRunnerSubScene subscene;
+	private SpaceRunnerSubScene playSubScene, scoreSubScene, helpSubScene, creditsSubscene, sceneToHide;
 	
 	public ViewManager() {
 		
@@ -62,6 +62,12 @@ public class ViewManager {
 		
 	}
 	
+	private void showShubScene(SpaceRunnerSubScene subscene) {
+		if(sceneToHide != null) sceneToHide.moveSubScene();
+		subscene.moveSubScene();
+		sceneToHide = subscene;
+	}
+	
 	private void addMenuButton(String buttonTitle) {
 		SpaceRunnerButton button = new SpaceRunnerButton(buttonTitle);
 		button.setLayoutX(MENU_BUTTON_START_X);
@@ -74,7 +80,11 @@ public class ViewManager {
 			@Override
 			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
-				subscene.moveSubScene();
+				if(buttonTitle == "PLAY") showShubScene(playSubScene);
+				else if(buttonTitle == "SCORES") showShubScene(scoreSubScene);
+				else if(buttonTitle == "HELP") showShubScene(helpSubScene);
+				else if(buttonTitle == "CREDITS") showShubScene(creditsSubscene);
+				else if(buttonTitle == "EXIT") mainStage.close();
 			}});
 	}
 	
@@ -110,7 +120,13 @@ public class ViewManager {
 	}
 	
 	private  void createSubScene() {
-		subscene = new SpaceRunnerSubScene();
-		mainPane.getChildren().add(subscene);
+		playSubScene = new SpaceRunnerSubScene();
+		scoreSubScene = new SpaceRunnerSubScene();
+		helpSubScene = new SpaceRunnerSubScene();
+		creditsSubscene = new SpaceRunnerSubScene();
+		mainPane.getChildren().add(playSubScene);
+		mainPane.getChildren().add(scoreSubScene);
+		mainPane.getChildren().add(helpSubScene);
+		mainPane.getChildren().add(creditsSubscene);
 	}
 }
