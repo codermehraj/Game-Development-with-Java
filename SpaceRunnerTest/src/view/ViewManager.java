@@ -3,6 +3,7 @@ package view;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.effect.DropShadow;
@@ -31,6 +32,7 @@ public class ViewManager {
 	private final static int MENU_BUTTON_START_Y = 150;
 	
 	List < SpaceRunnerButton > menuButtons;
+	private SpaceRunnerSubScene subscene;
 	
 	public ViewManager() {
 		
@@ -66,6 +68,14 @@ public class ViewManager {
 		button.setLayoutY(MENU_BUTTON_START_Y + menuButtons.size() * 100);
 		menuButtons.add(button);
 		mainPane.getChildren().add(button);
+		
+		button.setOnAction(new EventHandler < ActionEvent >() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				// TODO Auto-generated method stub
+				subscene.moveSubScene();
+			}});
 	}
 	
 	private void createBackground() {
@@ -100,9 +110,7 @@ public class ViewManager {
 	}
 	
 	private  void createSubScene() {
-		SpaceRunnerSubScene subscene = new SpaceRunnerSubScene();
-		subscene.setLayoutX(200);
-		subscene.setLayoutY(100);
+		subscene = new SpaceRunnerSubScene();
 		mainPane.getChildren().add(subscene);
 	}
 }
