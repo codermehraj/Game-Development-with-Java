@@ -12,6 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import model.SHIP;
+import model.SmallInfoLabel;
 
 public class GameViewManager {
 	
@@ -38,6 +39,12 @@ public class GameViewManager {
 	
 	private ImageView[] brownMeteors, grayMeteors;
 	Random randomPositionGenarator;
+	
+	private ImageView star;
+	private SmallInfoLabel pointsLabel;
+	private ImageView[] playerLifes;
+	private int playerLife, points;
+	private final static String GOLD_STAR_IMAGE = "view/resources/star_gold.png";			
 	
 	public GameViewManager() {
 		initializaeStage();
@@ -77,7 +84,24 @@ public class GameViewManager {
 		
 	}
 	
-	private void createGameElements() {
+	private void createGameElements(SHIP chosenShip) {
+		playerLife = 2;
+		star = new ImageView(GOLD_STAR_IMAGE);
+		setNewElementPosition(star);
+		gamePane.getChildren().add(star);
+		pointsLabel = new SmallInfoLabel("POINTS: 00");
+		pointsLabel.setLayoutX(460);
+		pointsLabel.setLayoutY(20);
+		gamePane.getChildren().add(pointsLabel);
+		
+		playerLifes = new ImageView[3];
+		for(int i = 0; i < 3; i++) {
+			playerLifes[i] = new ImageView(chosenShip.getUrlLife());
+			playerLifes[i].setLayoutX(455 + (i * 50));
+			playerLifes[i].setLayoutY(80);
+			gamePane.getChildren().add(playerLifes[i]);
+		}
+		
 		brownMeteors = new ImageView[3];
 		for(int i = 0; i < brownMeteors.length; i++) {
 			brownMeteors[i] = new ImageView(METEROR_BROWN_IMAGE);
@@ -94,6 +118,9 @@ public class GameViewManager {
 	}
 	
 	private void moveGameElements() {
+		
+		star.setLayoutY(star.getLayoutY() + 5);
+		
 		for(int i = 0; i < brownMeteors.length; i++) {
 			brownMeteors[i].setLayoutY(brownMeteors[i].getLayoutY() + 7);
 			brownMeteors[i].setRotate(brownMeteors[i].getRotate() + 4);
@@ -106,6 +133,10 @@ public class GameViewManager {
 	}
 	
 	private void checkIfElementsAreBehindTheSceneAndRelocateThem() {
+		if(star.getLayoutY() > 1200) {
+			setNewElementPosition(star);
+		}
+		
 		for(int i = 0; i < brownMeteors.length; i++) {
 			if(brownMeteors[i].getLayoutY() > 900) {
 				setNewElementPosition(brownMeteors[i]);
@@ -135,14 +166,14 @@ public class GameViewManager {
 		this.menuStage = menuStage;
 		createBackground();
 		createShip(chosenShip);
-		createGameElements();
+		createGameElements(chosenShip);
 		createGameLoop();
 		this.menuStage.hide();
 		this.gameStage.show();
 	}
 	
 	private void createShip(SHIP chosenShip) {
-		ship = new ImageView(chosenShip.getURL());
+		ship = new ImageView(chosenShip.getUrl());
 		ship.setLayoutX(GAME_WIDTH / 2);
 		ship.setLayoutY(GAME_HEIGHT - 90);
 		gamePane.getChildren().add(ship);
