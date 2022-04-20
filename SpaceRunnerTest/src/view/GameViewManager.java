@@ -1,5 +1,7 @@
 package view;
 
+import java.util.Random;
+
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -31,9 +33,16 @@ public class GameViewManager {
 	private GridPane gridPane1, gridPane2;
 	private final static String BACKGROUND_IMAGE = "view/resources/purpleBackground.png";
 	
+	private final static String METEROR_BROWN_IMAGE = "view/resources/meteorBrown.png";
+	private final static String METEROR_GRAY_IMAGE = "view/resources/meteorGrey.png";
+	
+	private ImageView[] brownMeteors, grayMeteors;
+	Random randomPositionGenarator;
+	
 	public GameViewManager() {
 		initializaeStage();
 		createKeyListeners();
+		randomPositionGenarator = new Random(); 
 	}
 	
 	private void createKeyListeners() {
@@ -67,6 +76,53 @@ public class GameViewManager {
 		});
 		
 	}
+	
+	private void createGameElements() {
+		brownMeteors = new ImageView[3];
+		for(int i = 0; i < brownMeteors.length; i++) {
+			brownMeteors[i] = new ImageView(METEROR_BROWN_IMAGE);
+			setNewElementPosition(brownMeteors[i]);
+			gamePane.getChildren().add(brownMeteors[i]);
+		}
+		
+		grayMeteors = new ImageView[3];
+		for(int i = 0; i < grayMeteors.length; i++) {
+			grayMeteors[i] = new ImageView(METEROR_GRAY_IMAGE);
+			setNewElementPosition(grayMeteors[i]);
+			gamePane.getChildren().add(grayMeteors[i]);
+		}
+	}
+	
+	private void moveGameElements() {
+		for(int i = 0; i < brownMeteors.length; i++) {
+			brownMeteors[i].setLayoutY(brownMeteors[i].getLayoutY() + 7);
+			brownMeteors[i].setRotate(brownMeteors[i].getRotate() + 4);
+		}
+		
+		for(int i = 0; i < grayMeteors.length; i++) {
+			grayMeteors[i].setLayoutY(grayMeteors[i].getLayoutY() + 7);
+			grayMeteors[i].setRotate(grayMeteors[i].getRotate() + 4);
+		}
+	}
+	
+	private void checkIfElementsAreBehindTheSceneAndRelocateThem() {
+		for(int i = 0; i < brownMeteors.length; i++) {
+			if(brownMeteors[i].getLayoutY() > 900) {
+				setNewElementPosition(brownMeteors[i]);
+			}
+		}
+		
+		for(int i = 0; i < grayMeteors.length; i++) {
+			if(grayMeteors[i].getLayoutY() > 900) {
+				setNewElementPosition(grayMeteors[i]);
+			}
+		}
+	}
+	
+	private void setNewElementPosition(ImageView image) {
+		image.setLayoutX(randomPositionGenarator.nextInt(370));
+		image.setLayoutY(-(randomPositionGenarator.nextInt(3200)+600));
+	}
 
 	private void initializaeStage() {
 		gamePane = new AnchorPane();
@@ -78,7 +134,8 @@ public class GameViewManager {
 	public void createNewGame(Stage menuStage, SHIP chosenShip) {
 		this.menuStage = menuStage;
 		createBackground();
-		createShip(chosenShip); 
+		createShip(chosenShip);
+		createGameElements();
 		createGameLoop();
 		this.menuStage.hide();
 		this.gameStage.show();
@@ -98,6 +155,8 @@ public class GameViewManager {
 			public void handle(long now) {
 				moveBackground();
 				moveShip();
+				moveGameElements();
+				checkIfElementsAreBehindTheSceneAndRelocateThem();
 			}
 			
 		};
