@@ -12,16 +12,24 @@ import javafx.scene.text.Font;
 
 public class SpaceRunnerButton extends Button{
 	
-	private final String FONT_PATH = "src/model/resources/kenvector_future.ttf";
-	private final String BUTTON_PRESSED_STYLE = "-fx-background-color: transparent; -fx-background-image: url('/model/resources/red_button_pressed.png')";
-	private final String BUTTON_FREE_STYLE = "-fx-background-color: transparent; -fx-background-image: url('/model/resources/red_button.png')";
+	private final String FONT_PATH = 
+			"src/model/resources/kenvector_future.ttf";
 	
-	public SpaceRunnerButton(String text) {
-		setText(text);
-		setButtonFont();
+	private final String BUTTON_PRESSED_STYLE = 
+			"-fx-background-color: transparent; "
+			+ "-fx-background-image: url('/model/resources/red_button_pressed.png')";
+	
+	private final String BUTTON_FREE_STYLE = 
+			"-fx-background-color: transparent;"
+					+ " -fx-background-image: url('/model/resources/red_button.png')";
+	
+	// Constructor
+	public SpaceRunnerButton(String buttonName) {
+		setText(buttonName);
+		setButtonFont(); // custom function implemented below
 		setPrefWidth(190);
 		setPrefHeight(49);
-		setStyle(BUTTON_FREE_STYLE);
+		setStyle(BUTTON_FREE_STYLE); // initial style of button
 		initializeButtonListeners();
 	}
 	

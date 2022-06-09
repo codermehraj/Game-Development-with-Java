@@ -10,13 +10,19 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+			
+			// ViewManager controls Main Menu Stage of the game
 			ViewManager manager = new ViewManager();
 			primaryStage = manager.getMainStage();
 			primaryStage.setTitle("Spacer Runner");
+			
 			Image gameIcon = new Image("model/resources/gameIcon.png");
 			primaryStage.getIcons().add(gameIcon);
+			
 			primaryStage.show();
+			
 			//primaryStage.setResizable(false);
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
