@@ -52,7 +52,7 @@ public class GameViewManager {
 	private final static int METEOR_RADIUS = 20;
 	
 	public GameViewManager() {
-		initializaeStage();
+		initializeStage();
 		createKeyListeners();
 		randomPositionGenarator = new Random(); 
 	}
@@ -203,7 +203,7 @@ public class GameViewManager {
 		image.setLayoutY(-(randomPositionGenarator.nextInt(3200)+600));
 	}
 
-	private void initializaeStage() {
+	private void initializeStage() {
 		gamePane = new AnchorPane();
 		gameScene = new Scene(gamePane, GAME_WIDTH, GAME_HEIGHT);
 		gameStage = new Stage();

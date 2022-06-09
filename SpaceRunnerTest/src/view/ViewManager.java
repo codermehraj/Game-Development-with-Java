@@ -43,17 +43,27 @@ public class ViewManager {
 	
 	public ViewManager() {
 		
-		mainPane = new AnchorPane();
-		mainScene = new Scene(mainPane, WIDTH, HEIGHT);
+		// Creating window using Stage Class
 		mainStage = new Stage();
+		
+		// Setting layout of Scene
+		mainPane = new AnchorPane();
+		
+		// Creating a Scene for the Stage
+		mainScene = new Scene(mainPane, WIDTH, HEIGHT);
+		
+		// Setting the scene
 		mainStage.setScene(mainScene);
 		
-		
-		createSubScene();
+		// creating elements of the main menu
+	
+		createBackground(); 
+		createLogo();
 		createButtons();
-		createBackground();
-		createLogo();		
+		// sub-scenes for each button
+		createSubScene(); 
 	}
+	
 	
 	public Stage getMainStage() {
 		return mainStage;
@@ -69,16 +79,24 @@ public class ViewManager {
 		
 	}
 	
-	private void showShubScene(SpaceRunnerSubScene subscene) {
+	// hides previous sub scene and shows current sub scene
+	// it animates the process using SubScene.moveSubScene()
+	private void showSubScene(SpaceRunnerSubScene subscene) {
 		if(sceneToHide != null) sceneToHide.moveSubScene();
 		subscene.moveSubScene();
 		sceneToHide = subscene;
 	}
 	
 	private void addMenuButton(String buttonTitle) {
+		
 		SpaceRunnerButton button = new SpaceRunnerButton(buttonTitle);
+		
 		button.setLayoutX(MENU_BUTTON_START_X);
+		
+		// menuButtons.size() = number of button added to the scene
+		// by multiplying number of buttons by 100 we get the Y coordinate of the new buttons 
 		button.setLayoutY(MENU_BUTTON_START_Y + menuButtons.size() * 100);
+		
 		menuButtons.add(button);
 		mainPane.getChildren().add(button);
 		
@@ -86,11 +104,11 @@ public class ViewManager {
 
 			@Override
 			public void handle(ActionEvent event) {
-				// TODO Auto-generated method stub
-				if(buttonTitle == "PLAY") showShubScene(playSubScene);
-				else if(buttonTitle == "SCORES") showShubScene(scoreSubScene);
-				else if(buttonTitle == "HELP") showShubScene(helpSubScene);
-				else if(buttonTitle == "CREDITS") showShubScene(creditsSubscene);
+				// adding different sub-scenes accordingly
+				if(buttonTitle == "PLAY") showSubScene(playSubScene);
+				else if(buttonTitle == "SCORES") showSubScene(scoreSubScene);
+				else if(buttonTitle == "HELP") showSubScene(helpSubScene);
+				else if(buttonTitle == "CREDITS") showSubScene(creditsSubscene);
 				else if(buttonTitle == "EXIT") mainStage.close();
 			}});
 	}
@@ -99,15 +117,22 @@ public class ViewManager {
 		
 		Image backgroundImage = new Image("view/resources/purpleBackground.png", 256, 256, false, true);
 		BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, null);
+		
+		// Setting the background for the Main Scene through AnchorPane Layout 
 		mainPane.setBackground(new Background(background));
 		
 	}
 	
 	private void createLogo() {
+		
+		// The ImageView is a Node used for painting images loaded with Image class.
 		ImageView logo = new ImageView("view/resources/logo.png");
-		logo.setLayoutX(700);
+		logo.setLayoutX(400);
 		logo.setLayoutY(50);
 		
+		// If the mouse is hovered over the logo
+		// Here Event Handler is passed as an anonymous class
+		// So that we can override the handle() method
 		logo.setOnMouseEntered(new EventHandler<MouseEvent>(){
 			
 			public void handle(MouseEvent event) {
@@ -115,6 +140,7 @@ public class ViewManager {
 			}
 		});
 		
+		// If the mouse is exited hovering over the logo
 		logo.setOnMouseExited(new EventHandler<MouseEvent>(){
 			
 			public void handle(MouseEvent event) {
@@ -122,11 +148,13 @@ public class ViewManager {
 			}
 		});
 		
+		// Adding the ImageView Node to the scene through AnchorPane
 		mainPane.getChildren().add(logo);		
 		
 	}
 	
 	private  void createSubScene() {
+		
 		scoreSubScene = new SpaceRunnerSubScene();
 		helpSubScene = new SpaceRunnerSubScene();
 		creditsSubscene = new SpaceRunnerSubScene();
@@ -185,7 +213,6 @@ public class ViewManager {
 
 				@Override
 				public void handle(MouseEvent event) {
-					// TODO Auto-generated method stub
 					for(ShipPicker ship: shipList) {
 						ship.setIsCircleChoosen(false);
 					}
